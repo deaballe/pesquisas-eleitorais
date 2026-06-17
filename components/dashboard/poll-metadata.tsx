@@ -22,11 +22,11 @@ export function PollMetadata({
   return (
     <dl className="grid gap-3 text-sm sm:grid-cols-3">
       <div>
-        <dt className="text-xs text-muted-foreground/80">Last collected</dt>
+        <dt className="text-muted-foreground">Last collected</dt>
         <dd className="font-medium">{formatCollectedAt(lastCollected)}</dd>
       </div>
       <div>
-        <dt className="text-xs text-muted-foreground/80">Poll period</dt>
+        <dt className="text-muted-foreground">Poll period</dt>
         <dd className="font-medium">
           {period
             ? `${formatPollDate(period.start)} → ${formatPollDate(period.end)}`
@@ -34,7 +34,7 @@ export function PollMetadata({
         </dd>
       </div>
       <div>
-        <dt className="text-xs text-muted-foreground/80">Institute</dt>
+        <dt className="text-muted-foreground">Institute</dt>
         <dd className="font-medium">{translateLabel(institute)}</dd>
       </div>
     </dl>

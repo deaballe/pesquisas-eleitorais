@@ -47,7 +47,7 @@ export function ScenarioTopic({
   sourceUrl,
 }: ScenarioTopicProps) {
   return (
-    <div className="space-y-1.5 border-b border-border/30 pb-4 last:border-0 last:pb-0">
+    <div className="space-y-1.5 border-b border-border/60 pb-4 last:border-0 last:pb-0">
       <div className="flex flex-wrap items-center gap-2">
         <h4 className="font-medium">{title}</h4>
         <StanceBadge stance={stance} />
@@ -92,7 +92,7 @@ export function ScenarioParagraphBlock({
   sourceUrl,
 }: ScenarioParagraphBlockProps) {
   return (
-    <div className="space-y-1.5 border-b border-border/30 pb-4 last:border-0 last:pb-0">
+    <div className="space-y-1.5 border-b border-border/60 pb-4 last:border-0 last:pb-0">
       {title ? <h4 className="font-medium">{title}</h4> : null}
       {summaryPoints ? (
         <div className="space-y-2">
@@ -139,7 +139,7 @@ export function ScenarioStrategyBlock({
   sourceUrl,
 }: ScenarioStrategyBlockProps) {
   return (
-    <div className="space-y-1.5 border-b border-border/30 pb-4 last:border-0 last:pb-0">
+    <div className="space-y-1.5 border-b border-border/60 pb-4 last:border-0 last:pb-0">
       <h4 className="font-medium">{title}</h4>
       <p className="text-muted-foreground leading-relaxed">{body}</p>
       <p className="text-xs text-muted-foreground">

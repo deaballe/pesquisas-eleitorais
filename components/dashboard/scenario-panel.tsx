@@ -22,30 +22,21 @@ function ScenarioSidePanel({ candidate, content }: ScenarioSidePanelProps) {
   const isLula = candidate === "LULA"
 
   return (
-    <Card className="h-full overflow-hidden">
-      <CardHeader
-        className={cn(
-          "border-b border-border/30",
-          isLula ? "bg-red-500/[0.06]" : "bg-blue-500/[0.06]",
-        )}
-      >
+    <Card className="h-full">
+      <CardHeader className="border-b">
         <CardTitle
           className={cn(
-            "text-lg font-medium tracking-wide",
+            "text-lg font-semibold tracking-wide",
             isLula ? "text-[hsl(0_72%_50%)]" : "text-[hsl(220_75%_50%)]",
           )}
         >
           {candidate}
         </CardTitle>
-        {!isLula ? (
-          <CardDescription>
-            Based on the Jair Bolsonaro administration
-          </CardDescription>
-        ) : (
-          <CardDescription>
-            Based on the 2022/2026 Lula administration
-          </CardDescription>
-        )}
+        <CardDescription>
+          {isLula
+            ? "Based on the 2022/2026 Lula administration"
+            : "Based on the Jair Bolsonaro administration"}
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 pt-4">
         {content.paragraphs?.map((paragraph) => (

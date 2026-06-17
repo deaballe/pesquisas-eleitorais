@@ -31,9 +31,9 @@ export function ScenarioSelector() {
               type="button"
               variant="outline"
               className={cn(
-                "h-auto min-h-10 whitespace-normal rounded-full border-transparent bg-muted/40 px-5 py-2.5 text-center transition-all duration-200 hover:bg-muted/60",
+                "h-auto min-h-10 whitespace-normal px-4 py-2.5 text-center",
                 isActive &&
-                  "border-primary/30 bg-primary/10 shadow-sm hover:bg-primary/10",
+                  "border-primary bg-primary/5 ring-2 ring-primary/20",
               )}
               aria-pressed={isActive}
               onClick={() => handleSelect(key)}

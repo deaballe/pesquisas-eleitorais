@@ -28,19 +28,14 @@ export function PollFilters({
   onInstituteChange,
 }: PollFiltersProps) {
   return (
-    <div className="flex flex-wrap gap-6">
-      <div className="flex min-w-40 flex-col gap-1.5">
-        <Label htmlFor="round-filter" className="text-xs text-muted-foreground">
-          Round
-        </Label>
+    <div className="flex flex-wrap gap-4">
+      <div className="flex min-w-40 flex-col gap-2">
+        <Label htmlFor="round-filter">Round</Label>
         <Select
           value={String(round)}
           onValueChange={(value) => onRoundChange(Number(value))}
         >
-          <SelectTrigger
-            id="round-filter"
-            className="w-full min-w-40 rounded-full border-transparent bg-muted/50 focus-visible:ring-primary/20"
-          >
+          <SelectTrigger id="round-filter" className="w-full min-w-40">
             <SelectValue placeholder="Select round" />
           </SelectTrigger>
           <SelectContent>
@@ -53,18 +48,10 @@ export function PollFilters({
         </Select>
       </div>
 
-      <div className="flex min-w-48 flex-col gap-1.5">
-        <Label
-          htmlFor="institute-filter"
-          className="text-xs text-muted-foreground"
-        >
-          Institute
-        </Label>
+      <div className="flex min-w-48 flex-col gap-2">
+        <Label htmlFor="institute-filter">Institute</Label>
         <Select value={institute} onValueChange={onInstituteChange}>
-          <SelectTrigger
-            id="institute-filter"
-            className="w-full min-w-48 rounded-full border-transparent bg-muted/50 focus-visible:ring-primary/20"
-          >
+          <SelectTrigger id="institute-filter" className="w-full min-w-48">
             <SelectValue placeholder="Select institute" />
           </SelectTrigger>
           <SelectContent>
