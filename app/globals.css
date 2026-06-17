@@ -63,8 +63,8 @@
     --accent: oklch(0.97 0.001 106.424);
     --accent-foreground: oklch(0.216 0.006 56.043);
     --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.923 0.003 48.717);
-    --input: oklch(0.923 0.003 48.717);
+    --border: oklch(0.923 0.003 48.717 / 60%);
+    --input: oklch(0.955 0.002 90);
     --ring: oklch(0.709 0.01 56.259);
     --chart-1: oklch(0.828 0.111 230.318);
     --chart-2: oklch(0.685 0.169 237.323);
@@ -121,7 +121,22 @@
     @apply border-border outline-ring/50;
     }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background: linear-gradient(
+      180deg,
+      oklch(0.99 0.002 90) 0%,
+      oklch(0.965 0.004 90) 100%
+    );
+    background-attachment: fixed;
+    min-height: 100svh;
+    }
+  .dark body {
+    background: linear-gradient(
+      180deg,
+      oklch(0.16 0.004 49.25) 0%,
+      oklch(0.13 0.004 49.25) 100%
+    );
+    background-attachment: fixed;
     }
   html {
     @apply font-sans;

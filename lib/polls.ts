@@ -60,26 +60,46 @@ export function getPollPeriod(rows: PollRow[]): {
   return { start: dates[0], end: dates[dates.length - 1] }
 }
 
-function chartColor(index: number, total: number): string {
-  const palette = [
-    "var(--chart-1)",
-    "var(--chart-2)",
-    "var(--chart-3)",
-    "var(--chart-4)",
-    "var(--chart-5)",
-  ]
-
-  if (index < palette.length) {
-    return palette[index]
-  }
-
-  const hue = Math.round((index * 360) / total)
-  return `hsl(${hue} 65% 55%)`
-}
-
 export type ChartSeries = {
   key: string
   candidato: string
+}
+
+const CHART_CANDIDATES = ["Lula", "Flávio Bolsonaro"] as const
+const CHART_SPECIAL_CATEGORIES = [
+  "Branco/nulo/não vai votar",
+  "Não sabe",
+] as const
+const CHART_OTHERS = "Others"
+
+const CHART_SERIES_ORDER = [
+  ...CHART_CANDIDATES,
+  ...CHART_SPECIAL_CATEGORIES,
+  CHART_OTHERS,
+] as const
+
+const CHART_SERIES_COLORS: Record<(typeof CHART_SERIES_ORDER)[number], string> = {
+  Lula: "hsl(0 72% 50%)",
+  "Flávio Bolsonaro": "hsl(220 75% 50%)",
+  "Branco/nulo/não vai votar": "hsl(0 0% 60%)",
+  "Não sabe": "hsl(270 55% 68%)",
+  Others: "hsl(142 55% 42%)",
+}
+
+function chartSeriesColor(candidato: string): string {
+  return (
+    CHART_SERIES_COLORS[candidato as keyof typeof CHART_SERIES_COLORS] ??
+    "var(--chart-1)"
+  )
+}
+
+function isChartSeriesCandidate(candidato: string): boolean {
+  return (
+    CHART_CANDIDATES.includes(candidato as (typeof CHART_CANDIDATES)[number]) ||
+    CHART_SPECIAL_CATEGORIES.includes(
+      candidato as (typeof CHART_SPECIAL_CATEGORIES)[number],
+    )
+  )
 }
 
 export function buildChartData(filteredRows: PollRow[]): {
@@ -88,21 +108,28 @@ export function buildChartData(filteredRows: PollRow[]): {
   series: ChartSeries[]
 } {
   const dates = [...new Set(filteredRows.map((row) => row.dataDivulgacao))].sort()
-  const candidates = [...new Set(filteredRows.map((row) => row.candidato))]
+  const hasOthers = filteredRows.some((row) => !isChartSeriesCandidate(row.candidato))
 
-  const series = candidates.map((candidato) => ({
+  const series = CHART_SERIES_ORDER.filter(
+    (candidato) => candidato !== CHART_OTHERS || hasOthers,
+  ).map((candidato) => ({
     candidato,
     key: slugifyKey(candidato),
   }))
 
   const data = dates.map((date) => {
+    const rowsForDate = filteredRows.filter((row) => row.dataDivulgacao === date)
     const point: Record<string, string | number | null> = { date }
 
     for (const { candidato, key } of series) {
-      const row = filteredRows.find(
-        (entry) =>
-          entry.dataDivulgacao === date && entry.candidato === candidato,
-      )
+      if (candidato === CHART_OTHERS) {
+        point[key] = rowsForDate
+          .filter((row) => !isChartSeriesCandidate(row.candidato))
+          .reduce((sum, row) => sum + row.percentual, 0)
+        continue
+      }
+
+      const row = rowsForDate.find((entry) => entry.candidato === candidato)
       point[key] = row?.percentual ?? null
     }
 
@@ -110,11 +137,11 @@ export function buildChartData(filteredRows: PollRow[]): {
   })
 
   const config: ChartConfig = Object.fromEntries(
-    series.map(({ candidato, key }, index) => [
+    series.map(({ candidato, key }) => [
       key,
       {
         label: translateLabel(candidato),
-        color: chartColor(index, series.length),
+        color: chartSeriesColor(candidato),
       },
     ]),
   )
